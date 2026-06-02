@@ -1,11 +1,9 @@
-﻿name: iOS Build
+name: iOS CI
 
-on:
-  push:
-    branches: [ main ]
+on: [push]
 
 jobs:
-  build-ios:
+  build:
     runs-on: macos-latest
 
     steps:
@@ -16,11 +14,12 @@ jobs:
           git clone https://github.com/flutter/flutter.git -b stable
           echo "$PWD/flutter/bin" >> $GITHUB_PATH
 
-      - name: Flutter doctor
-        run: flutter doctor
+      - run: flutter pub get
 
-      - name: Pub get
-        run: flutter pub get
+      - run: flutter build ipa --release --no-codesign
 
-      - name: Build iOS
-        run: flutter build ios --no-codesign
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa
+          path: build/ios/ipa/
