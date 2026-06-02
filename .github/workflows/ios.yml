@@ -16,7 +16,14 @@ jobs:
         with:
           flutter-version: stable
 
-      - run: flutter doctor
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build ios --no-codesign
+      - name: Flutter doctor
+        run: flutter doctor
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Clean
+        run: flutter clean
+
+      - name: Build iOS (no codesign)
+        run: flutter build ios --no-codesign
