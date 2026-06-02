@@ -11,19 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: stable
+      - name: Install Flutter
+        run: |
+          git clone https://github.com/flutter/flutter.git -b stable
+          echo "$PWD/flutter/bin" >> $GITHUB_PATH
 
       - name: Flutter doctor
         run: flutter doctor
 
-      - name: Get dependencies
+      - name: Pub get
         run: flutter pub get
 
-      - name: Clean
-        run: flutter clean
-
-      - name: Build iOS (no codesign)
+      - name: Build iOS
         run: flutter build ios --no-codesign
